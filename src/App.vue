@@ -1,29 +1,70 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <Header />
+    <main>
+      <router-view />
+    </main>
   </div>
 </template>
 
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+import Header from '@/components/Header.vue';
+
+@Component({
+  components: {
+    Header
+  }
+})
+export default class App extends Vue {}
+</script>
+
 <style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+:root {
+  --font-family: "Lucida Console", Consolas, monospace;
+  --font-size: 16px;
+
+  --success-colour: #228b22;
+  --danger-colour: #b22222;
+  --disabled-colour: #bbbbbb;
+
+  --primary-colour: #2853bb;
+  --primary-contrast: #fff;
+
+  --secondary-colour: #a8a8a8;
+  --secondary-contrast: #000;
+
+  --header-height: 50px;
 }
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+body,
+button {
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+}
+
+main {
+  padding: 5px;
+  min-height: calc(100vh - 10px - var(--header-height));
+}
+
+// Page helpers
+.page {
+}
+
+// Link styles
+a {
+  font-weight: bold;
+  color: #2c3e50;
+
+  &.router-link-exact-active {
+    color: var(--secondary-colour);
   }
 }
 </style>
