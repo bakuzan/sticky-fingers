@@ -1,34 +1,21 @@
-# stickyfingers
+# Sticky Fingers
 
-## Project setup
-```
-npm install
-```
+[Sudoku](https://en.wikipedia.org/wiki/Sudoku) implementation. Work in Progress.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## Development
 
-### Compiles and minifies for production
-```
-npm run build
-```
+Sticky Fingers uses vue, typescript, and was scaffolded using vue cli.
 
-### Run your tests
-```
-npm run test
-```
+- [Vuejs](https://vuejs.org/)
+- [@vue/cli](https://cli.vuejs.org/)
+- [Typescript](https://www.typescriptlang.org/)
 
-### Lints and fixes files
-```
-npm run lint
-```
+## Usage
 
-### Run your unit tests
-```
-npm run test:unit
-```
+1. Download the source or run `git clone`
+2. Run `npm install`
+3. Run `npm run serve` to start the app at localhost:8080
 
 ### Customize configuration
+
 See [Configuration Reference](https://cli.vuejs.org/config/).
