@@ -21,7 +21,7 @@ export default class App extends Vue {}
 
 <style lang="scss">
 :root {
-  --font-family: "Lucida Console", Consolas, monospace;
+  --font-family: 'Lucida Console', Consolas, monospace;
   --font-size: 16px;
 
   --success-colour: #228b22;
@@ -35,6 +35,8 @@ export default class App extends Vue {}
   --secondary-contrast: #000;
 
   --header-height: 50px;
+
+  --square-size: 50px;
 }
 
 body {
