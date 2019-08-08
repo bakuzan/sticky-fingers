@@ -1,7 +1,8 @@
 import { SQUARES, DIGITS } from './consts';
+import { SudokuGrid } from './interfaces/SudokuGrid';
 import assign from './assign';
 
-export default function parseGrid(grid) {
+export default function parseGrid(grid: SudokuGrid): SudokuGrid {
   // Convert grid to a dict of possible values, {square: digits}, or
   // return false if a contradiction is detected
 

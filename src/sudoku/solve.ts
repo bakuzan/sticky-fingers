@@ -1,17 +1,21 @@
 import { SQUARES } from './consts';
 import { SolveOptions } from './interfaces/SolveOptions';
+import { SudokuGrid } from './interfaces/SudokuGrid';
 import assign from './assign';
 import parseGrid from './parseGrid';
 import shuffle from './utils/shuffle';
 
-function search(values, options?: SolveOptions) {
+function search(
+  values?: SudokuGrid,
+  options?: SolveOptions
+): SudokuGrid | undefined {
   options = options || {};
   options.chooseDigit = options.chooseDigit || 'random';
   options.chooseSquare = options.chooseSquare || 'minDigits';
 
   // Using depth-first search and propagation, try all possible values."
-  if (values === false) {
-    return false; // Failed earlier
+  if (!values) {
+    return; // Failed earlier
   }
 
   if (SQUARES.every((x) => values[x].length === 1)) {
@@ -33,7 +37,7 @@ function search(values, options?: SolveOptions) {
     }
   );
 
-  let s;
+  let s = '';
   if (options.chooseSquare === 'minDigits') {
     s = candidates[0];
   } else if (options.chooseSquare === 'maxDigits') {
@@ -59,9 +63,17 @@ function search(values, options?: SolveOptions) {
     }
   }
 
-  return false;
+  return undefined;
 }
 
-export default function solve(grid, options?: SolveOptions) {
-  return search(parseGrid(grid), options);
+export default function solve(
+  grid: SudokuGrid,
+  options?: SolveOptions
+): SudokuGrid {
+  const value = search(parseGrid(grid), options);
+  if (!value) {
+    throw new Error('Failed to solve grid.');
+  }
+
+  return value;
 }

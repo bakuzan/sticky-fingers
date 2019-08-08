@@ -21,8 +21,7 @@ export default function eliminate(values, s: string, d: string) {
     }
   }
   // (2) If a unit u is reduced to only one place for a value d, then put it there.
-  for (const unit of UNITS[s]) {
-    const u = unit[i];
+  for (const u of UNITS[s]) {
     const dplaces = u.filter((s2) => values[s2].indexOf(d) !== -1);
 
     if (dplaces.length === 0) {

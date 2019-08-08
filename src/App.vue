@@ -21,18 +21,24 @@ export default class App extends Vue {}
 
 <style lang="scss">
 :root {
-  --font-family: 'Lucida Console', Consolas, monospace;
+  --font-family: 'Lucida Console', 'Courier New', monospace;
   --font-size: 16px;
 
   --success-colour: #228b22;
   --danger-colour: #b22222;
   --disabled-colour: #bbbbbb;
 
-  --primary-colour: #2853bb;
+  --primary-colour: #2854bd;
   --primary-contrast: #fff;
 
-  --secondary-colour: #a8a8a8;
+  --secondary-colour: #d1d1d1;
   --secondary-contrast: #000;
+
+  --button-background: var(--primary-colour);
+  --button-background-hover: hsl(222, 65%, 40%);
+  --button-colour: #fff;
+
+  --shadow-colour: var(--secondary-colour);
 
   --header-height: 50px;
 
@@ -46,9 +52,10 @@ body {
 }
 
 body,
+input,
 button {
-  font-family: var(--font-family);
   font-size: var(--font-size);
+  font-family: var(--font-family);
 }
 
 main {
@@ -62,11 +69,11 @@ main {
 
 // Link styles
 a {
-  font-weight: bold;
-  color: #2c3e50;
+  color: var(--secondary-colour);
 
   &.router-link-exact-active {
-    color: var(--secondary-colour);
+    text-decoration: none;
+    color: inherit;
   }
 }
 </style>

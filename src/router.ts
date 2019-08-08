@@ -14,10 +14,10 @@ export default new Router({
       component: Home
     },
     {
-      path: '/about',
-      name: 'about',
+      path: '/settings',
+      name: 'settings',
       component: () =>
-        import(/* webpackChunkName: "about" */ './views/About.vue')
+        import(/* webpackChunkName: "settings" */ './views/Settings.vue')
     }
   ]
 });

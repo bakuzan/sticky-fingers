@@ -1,13 +1,20 @@
 <template>
   <div class="sudoku">
-    <Square v-for="sq in board" :key="sq" :name="sq" :data="items[sq]" />
+    <Square
+      v-for="sq in board"
+      :key="sq"
+      :name="sq"
+      :data="items[sq]"
+      @on-user-input="onChange"
+    />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
 import Square from '@/components/Square.vue';
 
+import { BoardUpdate } from '@/interfaces/BoardUpdate';
 import { UNITS } from '@/sudoku/consts';
 
 @Component({
@@ -24,6 +31,13 @@ export default class Sudoku extends Vue {
     this.board = Object.keys(UNITS)
       .slice(0, 9)
       .reduce((p, k) => [...p, ...UNITS[k][0]], this.board);
+  }
+
+  @Emit()
+  public onChange(update: BoardUpdate) {
+    const newBoard = { ...this.items, [update.square]: update.value };
+
+    return newBoard;
   }
 }
 </script>

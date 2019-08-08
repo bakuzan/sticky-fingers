@@ -1,7 +1,5 @@
-const __DEBUG__ = true;
-
-export default function debug(msg) {
-  if (__DEBUG__) {
+export default function debug(msg: string) {
+  if (process.env.NODE_ENV !== 'production') {
     console.log(msg);
   }
 }
