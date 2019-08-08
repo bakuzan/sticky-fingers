@@ -1,7 +1,8 @@
+import { SudokuGrid } from './interfaces/SudokuGrid';
 import { PEERS, UNITS } from './consts';
 import assign from './assign';
 
-export default function eliminate(values, s: string, d: string) {
+export default function eliminate(values: SudokuGrid, s: string, d: string) {
   // Eliminate d from values[s]; propagate when values or places <= 2.
   // return values, except return false if a contradiction is detected.
 

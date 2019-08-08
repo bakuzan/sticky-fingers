@@ -1,5 +1,4 @@
 import { BorderClass } from '@/enums/BorderClass';
-import { BorderThickClass } from '@/enums/BorderThickClass';
 
 export default function getBorderClasses(square: string) {
   const [letter, num] = square.split('');
@@ -26,15 +25,15 @@ export default function getBorderClasses(square: string) {
   // Width
 
   if (num === '1') {
-    result.push(BorderThickClass.top);
+    result.push(BorderClass.thickTop);
   } else if (num === '9') {
-    result.push(BorderThickClass.bottom);
+    result.push(BorderClass.thickBottom);
   }
 
   if (letter === 'A') {
-    result.push(BorderThickClass.left);
+    result.push(BorderClass.thickLeft);
   } else if (letter === 'I') {
-    result.push(BorderThickClass.right);
+    result.push(BorderClass.thickRight);
   }
 
   return result.join(' ');

@@ -1,6 +1,7 @@
+import { SudokuGrid } from './interfaces/SudokuGrid';
 import { UNITS } from './consts';
 
-export default function getConflicts(values) {
+export default function getConflicts(values: SudokuGrid) {
   const errors = [];
 
   for (const key in values) {
@@ -14,9 +15,7 @@ export default function getConflicts(values) {
       continue;
     }
 
-    for (const units of UNITS[key]) {
-      const unit = units[i];
-
+    for (const unit of UNITS[key]) {
       for (const otherKey of unit) {
         const otherValue = values[otherKey] + '';
 

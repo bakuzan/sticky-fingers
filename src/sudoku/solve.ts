@@ -1,25 +1,24 @@
 import { SQUARES } from './consts';
 import { SolveOptions } from './interfaces/SolveOptions';
 import { SudokuGrid } from './interfaces/SudokuGrid';
+import { SolverState } from './interfaces/SolverState';
 import assign from './assign';
 import parseGrid from './parseGrid';
 import shuffle from './utils/shuffle';
 
-function search(
-  values?: SudokuGrid,
-  options?: SolveOptions
-): SudokuGrid | undefined {
+function search(input: SolverState, options?: SolveOptions): SolverState {
   options = options || {};
   options.chooseDigit = options.chooseDigit || 'random';
   options.chooseSquare = options.chooseSquare || 'minDigits';
 
   // Using depth-first search and propagation, try all possible values."
-  if (!values) {
-    return; // Failed earlier
+  if (!input.values) {
+    return { hasFailure: true }; // Failed earlier
   }
 
+  const values = input.values;
   if (SQUARES.every((x) => values[x].length === 1)) {
-    return values; // Solved!
+    return { values }; // Solved!
   }
 
   // Chose the unfilled square s with the fewest possibilities
@@ -58,22 +57,18 @@ function search(
     const d = digitsLeft[i];
     const result = search(assign(values, s, d), options);
 
-    if (result) {
-      return result;
+    if (result.values) {
+      return { values: result.values };
     }
   }
 
-  return undefined;
+  return { hasFailure: true };
 }
 
 export default function solve(
   grid: SudokuGrid,
   options?: SolveOptions
-): SudokuGrid {
-  const value = search(parseGrid(grid), options);
-  if (!value) {
-    throw new Error('Failed to solve grid.');
-  }
-
-  return value;
+): SudokuGrid | undefined {
+  const result = search(parseGrid(grid), options);
+  return result.values;
 }

@@ -18,6 +18,8 @@ import Button from '@/components/Button.vue';
 import { BoardUpdate } from '@/interfaces/BoardUpdate';
 import { SudokuGrid } from '@/sudoku/interfaces/SudokuGrid';
 import generate from '@/sudoku/generate';
+import isSolved from '@/sudoku/isSolved';
+import getConflicts from '@/sudoku/getConflicts';
 
 @Component({
   components: { Sudoku, Button }
@@ -41,6 +43,23 @@ export default class Home extends Vue {
 
   public onSubmit() {
     console.log('submit not implemented');
+    const errors = getConflicts(this.grid);
+    if (errors.length) {
+      // TODO
+      // Show erorrs
+      console.log('ERROS', errors);
+    }
+
+    // TODO check if solved! (solve() === this.grid)
+    if (false) {
+      // TODO
+      // END GAME SUCCESS SCREEN
+      console.log('SUCCESS');
+    } else {
+      // TODO
+      // TELL USER NO ERRORS... X SQUARES LEFT
+      console.log('NO CONFLICTS, NOT COMPLETE');
+    }
   }
 }
 </script>
