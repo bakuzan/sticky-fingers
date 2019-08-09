@@ -68,7 +68,11 @@ function search(input: SolverState, options?: SolveOptions): SolverState {
 export default function solve(
   grid: SudokuGrid,
   options?: SolveOptions
-): SudokuGrid | undefined {
+): SudokuGrid {
   const result = search(parseGrid(grid), options);
+  if (!result.values) {
+    throw new Error('Unable to solve grid.');
+  }
+
   return result.values;
 }

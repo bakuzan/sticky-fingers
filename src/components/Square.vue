@@ -2,11 +2,15 @@
   <div :class="classes">
     <input
       class="square__input"
-      type="number"
+      type="text"
       min="1"
       max="9"
-      :value="data"
+      :id="name"
+      :name="name"
+      :aria-label="name"
+      :value="value"
       @input="onUserInput"
+      @keyup="onKeyUp"
     />
   </div>
 </template>
@@ -19,7 +23,7 @@ import getBorderClasses from '@/utils/getBorderClasses';
 @Component
 export default class Square extends Vue {
   @Prop({ type: String }) public name!: string;
-  @Prop({ type: String }) public data!: string;
+  @Prop({ type: String }) public value!: string;
 
   get classes() {
     return `square ${getBorderClasses(this.name)}`;
@@ -27,8 +31,18 @@ export default class Square extends Vue {
 
   @Emit()
   public onUserInput(event: KeyboardEvent) {
-    const { value } = event.target as HTMLInputElement;
+    const { value: rawValue } = event.target as HTMLInputElement;
+
+    const num = Number(rawValue);
+    const isInvalid = isNaN(num) || num < 1 || num > 9;
+    const value = isInvalid ? '' : rawValue;
+
     return { square: this.name, value };
+  }
+
+  @Emit()
+  public onKeyUp(event: KeyboardEvent) {
+    // kick it up
   }
 }
 </script>

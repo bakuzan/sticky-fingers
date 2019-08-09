@@ -1,11 +1,21 @@
 <template>
   <div class="page home">
     <div class="home__content">
-      <Sudoku :items="grid" @on-change="handleBoardUpdate" />
-      <div class="controls">
-        <!-- TODO : Add game controls... think how to display error to user. -->
-        <Button primary @on-click="onSubmit">Submit</Button>
-      </div>
+      <form
+        id="gameForm"
+        name="sudoku"
+        autocomplete="off"
+        novalidate=""
+        @submit.prevent="onSubmit"
+      >
+        <Sudoku :items="grid" @on-change="handleBoardUpdate" />
+        <div class="controls">
+          <Button type="submit" primary>Check</Button>
+          <div class="controls__message">
+            <!-- TODO : Display user feedback -->
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 </template>
@@ -18,47 +28,55 @@ import Button from '@/components/Button.vue';
 import { BoardUpdate } from '@/interfaces/BoardUpdate';
 import { SudokuGrid } from '@/sudoku/interfaces/SudokuGrid';
 import generate from '@/sudoku/generate';
-import isSolved from '@/sudoku/isSolved';
+import solve from '../sudoku/solve';
 import getConflicts from '@/sudoku/getConflicts';
+import { SQUARES } from '@/sudoku/consts';
 
 @Component({
   components: { Sudoku, Button }
 })
 export default class Home extends Vue {
   private grid: SudokuGrid = {};
+  private solution: SudokuGrid = {};
 
   public mounted() {
-    this.grid = generate();
+    const grid = generate();
+    this.grid = grid;
+    this.solution = solve({ ...grid });
   }
 
-  public handleBoardUpdate(newBoard: SudokuGrid, update: BoardUpdate) {
-    console.log('GAME?', newBoard, update);
-    const num = Number(update.value);
-    const isInvalid = isNaN(num) || num < 1 || num > 9;
-    // TODO
-    // if invalid show error or something
-
-    // this.grid = { ...newBoard };
+  public handleBoardUpdate(update: BoardUpdate) {
+    this.$set(this.grid, update.square, update.value);
   }
 
   public onSubmit() {
-    console.log('submit not implemented');
-    const errors = getConflicts(this.grid);
+    const solution = { ...this.solution };
+    const currentGrid = { ...this.grid };
+    console.log('solve?', currentGrid);
+
+    const errors = getConflicts(currentGrid);
+    console.log(solution);
     if (errors.length) {
       // TODO
       // Show erorrs
+      // Check error fields vs solution to highlight the errors
       console.log('ERROS', errors);
+      return;
     }
 
-    // TODO check if solved! (solve() === this.grid)
-    if (false) {
+    const isSolved = Object.keys(solution).every(
+      (k) => solution[k] === currentGrid[k]
+    );
+
+    if (isSolved) {
       // TODO
       // END GAME SUCCESS SCREEN
       console.log('SUCCESS');
     } else {
       // TODO
-      // TELL USER NO ERRORS... X SQUARES LEFT
-      console.log('NO CONFLICTS, NOT COMPLETE');
+      // TELL USER
+      const squaresLeft = SQUARES.filter((x) => !currentGrid[x]).length;
+      console.log('NO CONFLICTS, NOT COMPLETE', squaresLeft);
     }
   }
 }

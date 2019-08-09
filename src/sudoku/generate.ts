@@ -13,10 +13,6 @@ export default function generate(difficulty?: Difficulty) {
   const minSquares = difficultySquareCount(difficulty || Difficulty.easy);
 
   const fullGrid = solve({});
-  if (!fullGrid) {
-    throw new Error('Grid not generated.');
-  }
-
   const generatedGrid = { ...fullGrid };
   const shuffledSquares = shuffle(SQUARES);
   let filledSquares = shuffledSquares.length;

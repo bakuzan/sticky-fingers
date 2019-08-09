@@ -5,7 +5,7 @@ import parseGrid from './parseGrid';
 export default function isSolvableWithElimination(grid: SudokuGrid) {
   const res = parseGrid(grid);
   if (!res.values) {
-    throw new Error('Grid parse failure');
+    return false;
   }
 
   return isSolved(res.values);
