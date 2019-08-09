@@ -1,8 +1,9 @@
 <template>
   <div class="page home">
     <div class="home__content">
-      <div v-if="complete">
+      <div v-if="complete" class="game-summary">
         <div>You've completed the puzzle!</div>
+        <div>{{ userFeedback }}</div>
         <div class="controls">
           <Button primary @click.native="onNewGame">New game</Button>
         </div>
@@ -15,6 +16,9 @@
         novalidate=""
         @submit.prevent="onSubmit"
       >
+        <div class="controls">
+          <div class="controls__message">{{ timeElapsed }}</div>
+        </div>
         <Sudoku
           :initial-grid="initialGrid"
           :items="grid"
@@ -38,6 +42,7 @@ import Sudoku from '@/components/Sudoku.vue';
 import Button from '@/components/Button.vue';
 
 import { BoardUpdate } from '@/interfaces/BoardUpdate';
+import GameTimer from '@/utils/GameTimer';
 import { SudokuGrid } from '@/sudoku/interfaces/SudokuGrid';
 import { SudokuError } from '@/sudoku/interfaces/SudokuError';
 import generate from '@/sudoku/generate';
@@ -54,13 +59,14 @@ export default class Home extends Vue {
   private solution: SudokuGrid = {};
 
   private complete: boolean = false;
+  private timer: number = 0;
+  private timeElapsed: string = '00m 00s';
   private userFeedback: string = '';
   private errors: SudokuError[] = [];
 
   public mounted() {
     /**
      * TODO
-     * 1) Game timer
      * 2) Track number of checks
      * 3) Limit number of checks (option ?)
      * 4) Time limit (option ?)
@@ -72,16 +78,19 @@ export default class Home extends Vue {
   public handleBoardUpdate(update: BoardUpdate) {
     this.$set(this.grid, update.square, update.value);
     // TEMP FOR SUCCESS DEV
-    // this.grid = this.solution;
+    this.grid = this.solution;
   }
 
   public onNewGame() {
     const grid = generate();
 
+    this.timeElapsed = '00m 00s';
+    this.userFeedback = ``;
     this.initialGrid = { ...grid };
     this.grid = { ...grid };
     this.solution = solve({ ...grid });
     this.complete = false;
+    this.unsubTimer = GameTimer.subscribe((time) => (this.timeElapsed = time));
   }
 
   public onSubmit() {
@@ -113,13 +122,15 @@ export default class Home extends Vue {
     );
 
     if (isSolved) {
-      this.userFeedback = '';
+      const time = this.unsubTimer();
+      this.userFeedback = `Completed in ${time}`;
       this.complete = true;
     } else {
       const squaresLeft = SQUARES.filter((x) => !currentGrid[x]).length;
       this.userFeedback = `No conflicts found. ${squaresLeft} squares left.`;
     }
   }
+  private unsubTimer: () => string = () => '';
 }
 </script>
 
@@ -133,6 +144,12 @@ export default class Home extends Vue {
       top: 25px;
     }
   }
+}
+
+.game-summary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .controls {
