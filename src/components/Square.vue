@@ -3,8 +3,7 @@
     <input
       :class="inputClasses"
       type="text"
-      min="1"
-      max="9"
+      maxlength="1"
       :id="name"
       :name="name"
       :aria-label="name"
@@ -52,7 +51,7 @@ export default class Square extends Vue {
     const num = Number(rawValue);
     const isInvalid = isNaN(num) || num < 1 || num > 9;
     const value = isInvalid ? '' : rawValue;
-
+    console.log(this);
     return { square: this.name, value };
   }
 

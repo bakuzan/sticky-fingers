@@ -1,13 +1,9 @@
 <template>
   <div class="sudoku">
     <Square
-      v-for="sq in board"
-      :key="sq"
-      :name="sq"
-      :value="items[sq] || ''"
-      :disabled="!!initialGrid[sq]"
-      :warning="isWarning(sq)"
-      :error="isError(sq)"
+      v-for="item in board"
+      :key="item.sq"
+      v-bind="item"
       @on-user-input="onChange"
       @on-key-up="onKeyUp"
     />
@@ -23,6 +19,9 @@ import { FocusAdjustment } from '@/interfaces/FocusAdjustment';
 import { SudokuError } from '@/sudoku/interfaces/SudokuError';
 import { UNITS, ROWS, COLS } from '@/sudoku/consts';
 import getBoardSquares from '@/utils/getBoardSquares';
+import { SudokuGrid } from '../sudoku/interfaces/SudokuGrid';
+
+const RAW_BOARD = getBoardSquares();
 
 @Component({
   components: {
@@ -30,14 +29,19 @@ import getBoardSquares from '@/utils/getBoardSquares';
   }
 })
 export default class Sudoku extends Vue {
-  @Prop({ type: Object, default: () => ({}) }) public initialGrid!: object;
-  @Prop({ type: Object, default: () => ({}) }) public items!: object;
+  @Prop({ type: Object, default: () => ({}) }) public initialGrid!: SudokuGrid;
+  @Prop({ type: Object, default: () => ({}) }) public items!: SudokuGrid;
   @Prop({ type: Array }) public errors!: SudokuError[];
 
-  private board: string[] = [];
-
-  public mounted() {
-    this.board = getBoardSquares();
+  get board() {
+    return RAW_BOARD.map((sq) => ({
+      sq,
+      name: sq,
+      value: this.items[sq],
+      disabled: !!this.initialGrid[sq],
+      warning: this.isWarning(sq),
+      error: this.isError(sq)
+    }));
   }
 
   @Emit()
