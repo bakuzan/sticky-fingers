@@ -1,6 +1,6 @@
 
 <template>
-  <button :type="type" :class="classes" @click="onClick"><slot></slot></button>
+  <button :type="type" :class="classes"><slot></slot></button>
 </template>
 
 <script lang="ts">
@@ -13,11 +13,6 @@ export default class Button extends Vue {
 
   get classes() {
     return `button ${this.primary ? 'button--primary' : ''}`;
-  }
-
-  @Emit()
-  public onClick(event: MouseEvent) {
-    // Just let it kick the events upwards
   }
 }
 </script>

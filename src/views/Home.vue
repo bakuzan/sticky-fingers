@@ -1,7 +1,14 @@
 <template>
   <div class="page home">
     <div class="home__content">
+      <div v-if="complete">
+        <div>You've completed the puzzle!</div>
+        <div class="controls">
+          <Button primary @click.native="onNewGame">New game</Button>
+        </div>
+      </div>
       <form
+        v-else
         id="gameForm"
         name="sudoku"
         autocomplete="off"
@@ -45,19 +52,36 @@ export default class Home extends Vue {
   private initialGrid: SudokuGrid = {};
   private grid: SudokuGrid = {};
   private solution: SudokuGrid = {};
+
+  private complete: boolean = false;
   private userFeedback: string = '';
   private errors: SudokuError[] = [];
 
   public mounted() {
+    /**
+     * TODO
+     * 1) Game timer
+     * 2) Track number of checks
+     * 3) Limit number of checks (option ?)
+     * 4) Time limit (option ?)
+     *
+     */
+    this.onNewGame();
+  }
+
+  public handleBoardUpdate(update: BoardUpdate) {
+    this.$set(this.grid, update.square, update.value);
+    // TEMP FOR SUCCESS DEV
+    // this.grid = this.solution;
+  }
+
+  public onNewGame() {
     const grid = generate();
 
     this.initialGrid = { ...grid };
     this.grid = { ...grid };
     this.solution = solve({ ...grid });
-  }
-
-  public handleBoardUpdate(update: BoardUpdate) {
-    this.$set(this.grid, update.square, update.value);
+    this.complete = false;
   }
 
   public onSubmit() {
@@ -89,9 +113,8 @@ export default class Home extends Vue {
     );
 
     if (isSolved) {
-      // TODO
-      // END GAME SUCCESS SCREEN
-      this.userFeedback = `You've completed the puzzle!`;
+      this.userFeedback = '';
+      this.complete = true;
     } else {
       const squaresLeft = SQUARES.filter((x) => !currentGrid[x]).length;
       this.userFeedback = `No conflicts found. ${squaresLeft} squares left.`;

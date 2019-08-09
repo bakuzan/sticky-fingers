@@ -8,7 +8,7 @@
       :name="name"
       :aria-label="name"
       :value="value"
-      :disabled="disabled"
+      :readonly="disabled"
       @input="onUserInput"
       @keyup="onKeyUp"
     />
@@ -108,7 +108,8 @@ $directions: (top, right, bottom, left);
       background-color: var(--danger-colour);
     }
 
-    &[disabled] {
+    &:read-only,
+    &[read-only] {
       background-color: var(--disabled-colour);
       color: var(--disabled-contrast);
     }
