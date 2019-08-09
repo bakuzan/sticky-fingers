@@ -25,8 +25,10 @@ export default class App extends Vue {}
   --font-size: 16px;
 
   --success-colour: #228b22;
-  --danger-colour: #b22222;
+  --warning-colour: #eee8aa;
+  --danger-colour: #db7093;
   --disabled-colour: #bbbbbb;
+  --disabled-contrast: #1f1f1f;
 
   --primary-colour: #2854bd;
   --primary-contrast: #fff;

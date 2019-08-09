@@ -36,5 +36,5 @@ export default function getBorderClasses(square: string) {
     result.push(BorderClass.thickRight);
   }
 
-  return result.join(' ');
+  return result;
 }

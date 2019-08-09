@@ -1,8 +1,15 @@
 import { SudokuGrid } from './interfaces/SudokuGrid';
+import { SudokuError } from './interfaces/SudokuError';
 import { UNITS } from './consts';
 
-export default function getConflicts(values: SudokuGrid) {
-  const errors = [];
+function findMistakes(solution: SudokuGrid, values: SudokuGrid) {
+  return Object.keys(solution)
+    .map((k) => (solution[k] !== values[k] && !!values[k] ? k : ''))
+    .filter((x) => !!x);
+}
+
+export default function getConflicts(solution: SudokuGrid, values: SudokuGrid) {
+  const errors: SudokuError[] = [];
 
   for (const key in values) {
     if (!values.hasOwnProperty(key)) {
@@ -28,5 +35,8 @@ export default function getConflicts(values: SudokuGrid) {
       }
     }
   }
-  return errors;
+
+  const mistakes = findMistakes(solution, values);
+
+  return { errors, mistakes };
 }

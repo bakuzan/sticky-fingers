@@ -5,6 +5,9 @@
       :key="sq"
       :name="sq"
       :value="items[sq] || ''"
+      :disabled="!!initialGrid[sq]"
+      :warning="isWarning(sq)"
+      :error="isError(sq)"
       @on-user-input="onChange"
       @on-key-up="onKeyUp"
     />
@@ -16,15 +19,10 @@ import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
 import Square from '@/components/Square.vue';
 
 import { BoardUpdate } from '@/interfaces/BoardUpdate';
+import { FocusAdjustment } from '@/interfaces/FocusAdjustment';
+import { SudokuError } from '@/sudoku/interfaces/SudokuError';
 import { UNITS, ROWS, COLS } from '@/sudoku/consts';
 import getBoardSquares from '@/utils/getBoardSquares';
-
-interface FocusAdjustment {
-  direction: number;
-  list: string[];
-  value: string;
-  idBase: string;
-}
 
 @Component({
   components: {
@@ -32,7 +30,9 @@ interface FocusAdjustment {
   }
 })
 export default class Sudoku extends Vue {
+  @Prop({ type: Object, default: () => ({}) }) public initialGrid!: object;
   @Prop({ type: Object, default: () => ({}) }) public items!: object;
+  @Prop({ type: Array }) public errors!: SudokuError[];
 
   private board: string[] = [];
 
@@ -112,6 +112,14 @@ export default class Sudoku extends Vue {
     if (square) {
       square.focus();
     }
+  }
+
+  private isWarning(square: string) {
+    return this.errors.some((e) => e.unit.includes(square));
+  }
+
+  private isError(square: string) {
+    return this.errors.some((e) => e.errorFields.includes(square));
   }
 }
 </script>

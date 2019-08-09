@@ -1,7 +1,7 @@
 <template>
   <div :class="classes">
     <input
-      class="square__input"
+      :class="inputClasses"
       type="text"
       min="1"
       max="9"
@@ -9,6 +9,7 @@
       :name="name"
       :aria-label="name"
       :value="value"
+      :disabled="disabled"
       @input="onUserInput"
       @keyup="onKeyUp"
     />
@@ -18,15 +19,30 @@
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
 
+import cx from '@/utils/classes';
 import getBorderClasses from '@/utils/getBorderClasses';
 
 @Component
 export default class Square extends Vue {
   @Prop({ type: String }) public name!: string;
   @Prop({ type: String }) public value!: string;
+  @Prop({ type: Boolean }) public disabled!: boolean;
+  @Prop({ type: Boolean }) public warning!: boolean;
+  @Prop({ type: Boolean }) public error!: boolean;
 
   get classes() {
-    return `square ${getBorderClasses(this.name)}`;
+    return cx('square', ...getBorderClasses(this.name));
+  }
+
+  get inputClasses() {
+    const hasWarning = this.warning && !this.error;
+    const hasError = this.error;
+
+    return cx(
+      'square__input',
+      hasWarning && `square__input--warning`,
+      hasError && `square__input--error`
+    );
   }
 
   @Emit()
@@ -83,6 +99,19 @@ $directions: (top, right, bottom, left);
     &::-webkit-outer-spin-button {
       appearance: none;
       margin: 0;
+    }
+
+    &--warning {
+      background-color: var(--warning-colour);
+    }
+
+    &--error {
+      background-color: var(--danger-colour);
+    }
+
+    &[disabled] {
+      background-color: var(--disabled-colour);
+      color: var(--disabled-contrast);
     }
   }
 }

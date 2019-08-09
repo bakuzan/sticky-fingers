@@ -8,11 +8,16 @@
         novalidate=""
         @submit.prevent="onSubmit"
       >
-        <Sudoku :items="grid" @on-change="handleBoardUpdate" />
+        <Sudoku
+          :initial-grid="initialGrid"
+          :items="grid"
+          :errors="errors"
+          @on-change="handleBoardUpdate"
+        />
         <div class="controls">
           <Button type="submit" primary>Check</Button>
           <div class="controls__message">
-            <!-- TODO : Display user feedback -->
+            {{ userFeedback }}
           </div>
         </div>
       </form>
@@ -27,6 +32,7 @@ import Button from '@/components/Button.vue';
 
 import { BoardUpdate } from '@/interfaces/BoardUpdate';
 import { SudokuGrid } from '@/sudoku/interfaces/SudokuGrid';
+import { SudokuError } from '@/sudoku/interfaces/SudokuError';
 import generate from '@/sudoku/generate';
 import solve from '../sudoku/solve';
 import getConflicts from '@/sudoku/getConflicts';
@@ -36,12 +42,17 @@ import { SQUARES } from '@/sudoku/consts';
   components: { Sudoku, Button }
 })
 export default class Home extends Vue {
+  private initialGrid: SudokuGrid = {};
   private grid: SudokuGrid = {};
   private solution: SudokuGrid = {};
+  private userFeedback: string = '';
+  private errors: SudokuError[] = [];
 
   public mounted() {
     const grid = generate();
-    this.grid = grid;
+
+    this.initialGrid = { ...grid };
+    this.grid = { ...grid };
     this.solution = solve({ ...grid });
   }
 
@@ -53,14 +64,23 @@ export default class Home extends Vue {
     const solution = { ...this.solution };
     const currentGrid = { ...this.grid };
     console.log('solve?', currentGrid);
+    console.log('solution?', solution);
+    const { errors, mistakes } = getConflicts(solution, currentGrid);
+    const mistakeCount = mistakes.length;
 
-    const errors = getConflicts(currentGrid);
-    console.log(solution);
+    // Mistakes that break sudoku rules.
     if (errors.length) {
-      // TODO
-      // Show erorrs
-      // Check error fields vs solution to highlight the errors
-      console.log('ERROS', errors);
+      this.errors = [...errors];
+      this.userFeedback = `You've broken the rules!`;
+      return;
+    }
+
+    this.errors = [];
+
+    // Mistakes that don't break sudoku rules, but are incorrect to the solution
+    if (mistakeCount) {
+      const plu = mistakeCount !== 1 ? 's' : '';
+      this.userFeedback = `There appear to be ${mistakeCount} mistake${plu}.`;
       return;
     }
 
@@ -71,12 +91,10 @@ export default class Home extends Vue {
     if (isSolved) {
       // TODO
       // END GAME SUCCESS SCREEN
-      console.log('SUCCESS');
+      this.userFeedback = `You've completed the puzzle!`;
     } else {
-      // TODO
-      // TELL USER
       const squaresLeft = SQUARES.filter((x) => !currentGrid[x]).length;
-      console.log('NO CONFLICTS, NOT COMPLETE', squaresLeft);
+      this.userFeedback = `No conflicts found. ${squaresLeft} squares left.`;
     }
   }
 }
@@ -97,5 +115,13 @@ export default class Home extends Vue {
 .controls {
   display: flex;
   padding: 5px 0;
+
+  &__message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    margin: 0 5px;
+  }
 }
 </style>
