@@ -3,7 +3,7 @@
     <h1 class="skf-header__title">Sticky Fingers</h1>
     <div class="skf-header__links">
       <router-link to="/">Home</router-link> |
-      <router-link to="/settings">Settings</router-link>
+      <router-link to="/history">History</router-link>
     </div>
   </nav>
 </template>

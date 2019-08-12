@@ -1,11 +1,21 @@
 <template>
   <div class="page home">
     <div class="home__content">
-      <div v-if="complete" class="game-summary">
-        <div>You've completed the puzzle!</div>
-        <div>{{ userFeedback }}</div>
+      <div v-if="!inGame" class="game-summary">
+        <div class="game-summary__message">{{ userFeedback }}</div>
         <div class="controls">
           <Button primary @click.native="onNewGame">New game</Button>
+          <div style="margin: 0 15px;">
+            <SelectBox
+              id="difficulty"
+              class="game-summary__difficulty"
+              text="Difficulty"
+              :value="difficulty"
+              :options="difficultyOptions"
+              @on-select="onDifficultySelection"
+              required
+            />
+          </div>
         </div>
       </div>
       <form
@@ -40,29 +50,41 @@
 import { Component, Vue } from 'vue-property-decorator';
 import Sudoku from '@/components/Sudoku.vue';
 import Button from '@/components/Button.vue';
+import SelectBox from '@/components/SelectBox.vue';
 
 import { BoardUpdate } from '@/interfaces/BoardUpdate';
+import { SelectBoxChange } from '@/interfaces/SelectBoxChange';
 import GameTimer from '@/utils/GameTimer';
+import { optsStore } from '@/utils/storage';
 import { SudokuGrid } from '@/sudoku/interfaces/SudokuGrid';
 import { SudokuError } from '@/sudoku/interfaces/SudokuError';
 import generate from '@/sudoku/generate';
 import solve from '../sudoku/solve';
 import getConflicts from '@/sudoku/getConflicts';
 import { SQUARES } from '@/sudoku/consts';
+import { Difficulty } from '../sudoku/enums/Difficulty';
 
 @Component({
-  components: { Sudoku, Button }
+  components: { Sudoku, Button, SelectBox }
 })
 export default class Home extends Vue {
   private initialGrid: SudokuGrid = {};
   private grid: SudokuGrid = {};
   private solution: SudokuGrid = {};
+  private difficulty: Difficulty = Difficulty.easy;
 
-  private complete: boolean = false;
+  private inGame: boolean = false;
   private timer: number = 0;
   private timeElapsed: string = '00m 00s';
-  private userFeedback: string = '';
+  private userFeedback: string = `Let's play sudoku!`;
   private errors: SudokuError[] = [];
+
+  get difficultyOptions() {
+    return Object.values(Difficulty).map((value) => ({
+      value,
+      text: value
+    }));
+  }
 
   public mounted() {
     /**
@@ -72,7 +94,15 @@ export default class Home extends Vue {
      * 4) Time limit (option ?)
      *
      */
-    this.onNewGame();
+    const opts = optsStore.get();
+    this.difficulty = opts.difficulty;
+  }
+
+  public onDifficultySelection(change: SelectBoxChange) {
+    const { value } = change;
+    const difficulty = value as Difficulty;
+    this.difficulty = difficulty;
+    optsStore.set({ difficulty });
   }
 
   public handleBoardUpdate(update: BoardUpdate) {
@@ -82,14 +112,14 @@ export default class Home extends Vue {
   }
 
   public onNewGame() {
-    const grid = generate();
+    const grid = generate(this.difficulty);
 
     this.timeElapsed = '00m 00s';
     this.userFeedback = ``;
     this.initialGrid = { ...grid };
     this.grid = { ...grid };
     this.solution = solve({ ...grid });
-    this.complete = false;
+    this.inGame = true;
     this.unsubTimer = GameTimer.subscribe((time) => (this.timeElapsed = time));
   }
 
@@ -122,15 +152,33 @@ export default class Home extends Vue {
     );
 
     if (isSolved) {
-      const time = this.unsubTimer();
-      this.userFeedback = `Completed in ${time}`;
-      this.complete = true;
+      this.completedGame();
     } else {
       const squaresLeft = SQUARES.filter((x) => !currentGrid[x]).length;
       this.userFeedback = `No conflicts found. ${squaresLeft} squares left.`;
     }
   }
-  private unsubTimer: () => string = () => '';
+
+  private completedGame() {
+    const time = this.unsubTimer();
+    this.userFeedback = `You've completed the puzzle!
+      Completed in ${GameTimer.formatTime(time)}`;
+    this.inGame = false;
+
+    const opts = optsStore.get();
+    optsStore.set({
+      history: [
+        ...opts.history,
+        {
+          datetime: new Date().getTime(),
+          timeElasped: time,
+          difficulty: this.difficulty
+        }
+      ]
+    });
+  }
+
+  private unsubTimer: () => number = () => 0;
 }
 </script>
 
@@ -150,6 +198,14 @@ export default class Home extends Vue {
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  &__message {
+    margin: 15px 0;
+  }
+
+  &__difficulty {
+    min-width: 90px;
+  }
 }
 
 .controls {
