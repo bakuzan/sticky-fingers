@@ -108,7 +108,7 @@ export default class Home extends Vue {
   public handleBoardUpdate(update: BoardUpdate) {
     this.$set(this.grid, update.square, update.value);
     // TEMP FOR SUCCESS DEV
-    this.grid = this.solution;
+    // this.grid = this.solution;
   }
 
   public onNewGame() {
@@ -171,7 +171,7 @@ export default class Home extends Vue {
         ...opts.history,
         {
           datetime: new Date().getTime(),
-          timeElasped: time,
+          timeElapsed: time,
           difficulty: this.difficulty
         }
       ]
