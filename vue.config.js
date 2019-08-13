@@ -1,4 +1,4 @@
 module.exports = {
   lintOnSave: false,
-  publicPath: '/sticky-fingers'
+  publicPath: process.env.NODE_ENV === 'production' ? '/sticky-fingers' : '/'
 };

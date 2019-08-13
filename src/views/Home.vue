@@ -27,7 +27,8 @@
         @submit.prevent="onSubmit"
       >
         <div class="controls">
-          <div class="controls__message">{{ timeElapsed }}</div>
+          <div class="controls__padded">{{ timeElapsed }}</div>
+          <div class="controls__padded">{{ difficulty }}</div>
         </div>
         <Sudoku
           :initial-grid="initialGrid"
@@ -210,6 +211,7 @@ export default class Home extends Vue {
 
 .controls {
   display: flex;
+  justify-content: space-between;
   padding: 5px 0;
 
   &__message {
@@ -218,6 +220,10 @@ export default class Home extends Vue {
     align-items: center;
     flex: 1;
     margin: 0 5px;
+  }
+
+  &__padded {
+    padding: 0 5px;
   }
 }
 </style>
