@@ -15,8 +15,13 @@ const monthNames = [
   'Dec'
 ];
 
-export default function formatDate(t: number) {
+export default function formatDate(t?: number | string | Date) {
+  if (!t) {
+    return '';
+  }
+
   const d = new Date(t);
+
   return `${padNumber(d.getDate(), 2)} ${
     monthNames[d.getMonth()]
   } ${d.getFullYear()} @ ${padNumber(d.getHours(), 2)}:${padNumber(
