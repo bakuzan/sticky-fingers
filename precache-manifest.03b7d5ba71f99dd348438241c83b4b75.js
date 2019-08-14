@@ -16,16 +16,16 @@ self.__precacheManifest = [
     "url": "/sticky-fingers/robots.txt"
   },
   {
-    "revision": "23d8777c2a6c34b6fd05",
-    "url": "/sticky-fingers/js/history.59a72739.js"
+    "revision": "5b2315ca1877d32b3d07",
+    "url": "/sticky-fingers/js/history.57a8eede.js"
   },
   {
-    "revision": "41fecb8b48eaabd8bc46d7e4d310a8a0",
+    "revision": "945053443cc78a87459cfea4ac59cfa0",
     "url": "/sticky-fingers/index.html"
   },
   {
-    "revision": "d62dababb1fb17ed6107",
-    "url": "/sticky-fingers/js/app.ea0da452.js"
+    "revision": "c2317f2f3618db21675d",
+    "url": "/sticky-fingers/js/app.73ef962a.js"
   },
   {
     "revision": "9a8575b892c49c2019dc82f52295e8bc",
@@ -44,11 +44,11 @@ self.__precacheManifest = [
     "url": "/sticky-fingers/img/favicon-16x16.png"
   },
   {
-    "revision": "23d8777c2a6c34b6fd05",
-    "url": "/sticky-fingers/css/history.35e5cf50.css"
+    "revision": "5b2315ca1877d32b3d07",
+    "url": "/sticky-fingers/css/history.63b0f645.css"
   },
   {
-    "revision": "d62dababb1fb17ed6107",
-    "url": "/sticky-fingers/css/app.40d4fa7d.css"
+    "revision": "c2317f2f3618db21675d",
+    "url": "/sticky-fingers/css/app.2c68167c.css"
   }
 ];
