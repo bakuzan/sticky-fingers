@@ -5,7 +5,7 @@
       type="text"
       maxlength="1"
       :id="name"
-      :name="name"
+      :name="fieldName"
       :aria-label="name"
       :value="value"
       :readonly="disabled"
@@ -42,6 +42,10 @@ export default class Square extends Vue {
       hasWarning && `square__input--warning`,
       hasError && `square__input--error`
     );
+  }
+
+  get fieldName() {
+    return `sq_${this.name}`;
   }
 
   @Emit()

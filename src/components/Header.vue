@@ -24,6 +24,7 @@ export default class Header extends Vue {}
   background-color: var(--primary-colour);
   color: var(--primary-contrast);
   padding: 5px 15px;
+  box-shadow: 1px 1px 2px 2px var(--shadow-colour);
 
   &__title {
     font-size: 1.5rem;
