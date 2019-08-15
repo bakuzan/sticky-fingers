@@ -60,6 +60,8 @@ export default class SelectBox extends Vue {
 </script>
 
 <style lang="scss" scoped>
+@import '../styles/_extensions';
+
 .select-box {
   flex: 1;
   padding: 5px;
@@ -67,15 +69,7 @@ export default class SelectBox extends Vue {
   box-sizing: content-box;
 
   &::after {
-    content: '\2335';
-    position: absolute;
-    top: 75%;
-    right: 5px;
-    transform: translateY(-50%);
-    font-weight: 700;
-    font-size: 0.75em;
-    pointer-events: none;
-    height: calc(100% - 0.75em);
+    @extend %down-caret-rhs;
   }
 
   &__input {

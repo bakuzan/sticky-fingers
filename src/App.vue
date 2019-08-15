@@ -43,9 +43,9 @@ export default class App extends Vue {}
   --button-colour: #fff;
 
   --shadow-colour: var(--secondary-colour);
+  --multiselect-menu-background-colour: #fff;
 
   --header-height: 50px;
-
   --square-size: 50px;
 }
 

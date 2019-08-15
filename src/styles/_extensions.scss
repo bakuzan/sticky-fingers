@@ -1,0 +1,15 @@
+%standard-shadow {
+  box-shadow: 2px 2px 10px #aaa;
+}
+
+%down-caret-rhs {
+  content: '\2335';
+  position: absolute;
+  top: 75%;
+  right: 5px;
+  transform: translateY(-50%);
+  font-weight: 700;
+  font-size: 0.75em;
+  pointer-events: none;
+  height: calc(100% - 0.75em);
+}

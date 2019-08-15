@@ -10,6 +10,16 @@
         </div>
       </aside>
     </header>
+    <div class="history__filters">
+      <MultiSelect
+        id="difficultyFilter"
+        name="difficultyFilter"
+        label="Difficulty"
+        :values="difficulties"
+        :options="difficultyOptions"
+        @update="onDifficultyUpdate"
+      />
+    </div>
     <List>
       <li v-if="!history.length" class="history__item history__item--no-items">
         No history found.
@@ -59,36 +69,58 @@ import { Component, Vue } from 'vue-property-decorator';
 
 import List from '@/components/List.vue';
 import Button from '@/components/Button.vue';
+import MultiSelect from '@/components/MultiSelect.vue';
 
 import { GameResultView } from '@/interfaces/GameResult';
+import {
+  MultiSelectValue,
+  MultiSelectOption
+} from '@/interfaces/MultiSelectOption';
 import GameTimer from '@/utils/GameTimer';
 import { optsStore } from '@/utils/storage';
 import formatDate from '@/utils/formatDate';
 import padNumber from '@/utils/pad';
 import averageForDifficulty from '@/utils/averageForDifficulty';
-import { Difficulty } from '../sudoku/enums/Difficulty';
+import { Difficulty } from '@/sudoku/enums/Difficulty';
 
 type ResultField = 'timeElapsed' | 'datetime';
 
-@Component({ components: { List, Button } })
+const DIFFICULTY_OPTIONS: MultiSelectOption[] = Object.values(Difficulty).map(
+  (value) => ({
+    value,
+    text: value
+  })
+);
+
+const defaultDifficulties = DIFFICULTY_OPTIONS.map(
+  (x) => x.value
+) as Difficulty[];
+
+@Component({ components: { List, Button, MultiSelect } })
 export default class History extends Vue {
   private sortOrder: number = 1;
   private sortField: ResultField = 'timeElapsed';
+  private difficulties: Difficulty[] = defaultDifficulties;
   private history: GameResultView[] = [];
   private averages: any[] = [];
 
   get items() {
-    console.log('items');
-    return this.history.sort((a, b) => {
-      const bv = b[this.sortField];
-      const av = a[this.sortField];
+    return this.history
+      .filter((x) => this.difficulties.includes(x.difficulty))
+      .sort((a, b) => {
+        const bv = b[this.sortField];
+        const av = a[this.sortField];
 
-      return this.sortOrder === 1 ? av - bv : bv - av;
-    });
+        return this.sortOrder === 1 ? av - bv : bv - av;
+      });
   }
 
   get sortIcon() {
     return this.sortOrder === 1 ? '\u25B2\uFE0E' : '\u25BC\uFE0E';
+  }
+
+  get difficultyOptions() {
+    return DIFFICULTY_OPTIONS;
   }
 
   public mounted() {
@@ -104,9 +136,6 @@ export default class History extends Vue {
       averageForDifficulty(Difficulty.medium, this.history),
       averageForDifficulty(Difficulty.hard, this.history)
     ];
-
-    // TODO
-    // Filter by difficulty
   }
 
   public itemNumber(num: number): string {
@@ -123,6 +152,10 @@ export default class History extends Vue {
     this.sortField = field;
 
     console.log('sort', this.sortField, this.sortOrder);
+  }
+
+  public onDifficultyUpdate(values: MultiSelectValue[]) {
+    this.difficulties = values as Difficulty[];
   }
 }
 </script>
@@ -145,6 +178,15 @@ export default class History extends Vue {
   &__title {
     font-size: 1.25rem;
     margin: 15px 0;
+  }
+
+  &__filters {
+    max-width: 50%;
+    margin: 10px 0;
+
+    @include respondToAll((xxs, xs)) {
+      max-width: 100%;
+    }
   }
 
   &__item {
