@@ -12,6 +12,7 @@ export default function getConflicts(solution: SudokuGrid, values: SudokuGrid) {
   const errors: SudokuError[] = [];
 
   for (const key in values) {
+    /* istanbul ignore next */
     if (!values.hasOwnProperty(key)) {
       continue;
     }
