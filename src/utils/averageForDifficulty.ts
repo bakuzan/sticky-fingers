@@ -7,8 +7,9 @@ export default function averageForDifficulty(
   items: GameResultView[]
 ) {
   const diffItems = items.filter((x) => x.difficulty === diff);
-  const avgTime =
-    diffItems.reduce((p, c) => p + c.timeElapsed, 0) / diffItems.length;
+  const avgTime = Math.round(
+    diffItems.reduce((p, c) => p + c.timeElapsed, 0) / diffItems.length
+  );
 
   return {
     text: diff,
