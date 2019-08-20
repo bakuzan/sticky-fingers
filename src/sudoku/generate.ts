@@ -20,7 +20,9 @@ export default function generate(difficulty?: Difficulty) {
   for (const s of shuffledSquares) {
     delete generatedGrid[s];
     filledSquares--;
-
+    if (!isUnique(generatedGrid)) {
+      console.log(generatedGrid);
+    }
     if (!isSolvableWithElimination(generatedGrid) || !isUnique(generatedGrid)) {
       generatedGrid[s] = fullGrid[s];
       filledSquares++;

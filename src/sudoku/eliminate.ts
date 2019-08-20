@@ -21,10 +21,12 @@ export default function eliminate(values: SudokuGrid, s: string, d: string) {
       return false;
     }
   }
+
   // (2) If a unit u is reduced to only one place for a value d, then put it there.
   for (const u of UNITS[s]) {
     const dplaces = u.filter((s2) => values[s2].indexOf(d) !== -1);
 
+    /* istanbul ignore if */
     if (dplaces.length === 0) {
       return false; // Contradiction: no place for this value
     } else if (dplaces.length === 1) {

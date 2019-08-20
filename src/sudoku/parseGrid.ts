@@ -19,13 +19,14 @@ export default function parseGrid(grid: SudokuGrid): SolverState {
   const input = grid;
 
   for (const s in input) {
+    /* istanbul ignore next */
     if (!input.hasOwnProperty(s)) {
       continue;
     }
 
     const d = input[s];
-
-    if (!assign(values, s, d)) {
+    const result = assign(values, s, d);
+    if (result.hasFailure) {
       return { hasFailure: true }; // (Fail if we can't assign d to square s.)
     }
   }
