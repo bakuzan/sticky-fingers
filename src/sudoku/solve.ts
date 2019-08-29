@@ -9,7 +9,6 @@ import shuffle from './utils/shuffle';
 function search(input: SolverState, options?: SolveOptions): SolverState {
   options = options || {};
   options.chooseDigit = options.chooseDigit || 'random';
-  options.chooseSquare = options.chooseSquare || 'minDigits';
 
   // Using depth-first search and propagation, try all possible values."
   if (!input.values) {
@@ -36,14 +35,7 @@ function search(input: SolverState, options?: SolveOptions): SolverState {
     }
   );
 
-  let s = '';
-  if (options.chooseSquare === 'minDigits') {
-    s = candidates[0];
-  } else if (options.chooseSquare === 'maxDigits') {
-    s = candidates[candidates.length - 1];
-  } else if (options.chooseSquare === 'random') {
-    s = candidates[Math.floor(Math.random() * candidates.length)];
-  }
+  const s = candidates[0];
 
   let digitsLeft = values[s].split('');
   if (options.chooseDigit === 'max') {

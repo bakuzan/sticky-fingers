@@ -1,4 +1,4 @@
-import pad from './pad';
+import padNumber from 'ayaka/padNumber';
 
 class GameTimer {
   get time() {
@@ -17,7 +17,7 @@ class GameTimer {
     const mins = Math.floor(time / 60);
     const secs = time % 60;
 
-    return `${pad(mins, 2)}m ${pad(secs, 2)}s`;
+    return `${padNumber(mins, 2)}m ${padNumber(secs, 2)}s`;
   }
 
   public subscribe(fn: (time: string) => void) {

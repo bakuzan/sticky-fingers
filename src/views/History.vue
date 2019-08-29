@@ -65,6 +65,8 @@
 </template>
 
 <script lang="ts">
+import formatDate from 'ayaka/formatDateTimeForDisplay';
+import padNumber from 'ayaka/padNumber';
 import { Component, Vue } from 'vue-property-decorator';
 
 import List from '@/components/List.vue';
@@ -78,8 +80,6 @@ import {
 } from '@/interfaces/MultiSelectOption';
 import GameTimer from '@/utils/GameTimer';
 import { optsStore } from '@/utils/storage';
-import formatDate from '@/utils/formatDate';
-import padNumber from '@/utils/pad';
 import averageForDifficulty from '@/utils/averageForDifficulty';
 import { Difficulty } from '@/sudoku/enums/Difficulty';
 

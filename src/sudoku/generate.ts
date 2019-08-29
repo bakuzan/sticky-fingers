@@ -1,5 +1,6 @@
 import { SQUARES } from './consts';
 import { Difficulty } from './enums/Difficulty';
+import { SudokuGrid } from './interfaces/SudokuGrid';
 import debug from './utils/debug';
 
 import solve from './solve';
@@ -8,7 +9,7 @@ import isSolvableWithElimination from './isSolvableWithElimination';
 import isUnique from './isUnique';
 import shuffle from './utils/shuffle';
 
-export default function generate(difficulty?: Difficulty) {
+export default function generate(difficulty?: Difficulty): SudokuGrid {
   const start = new Date().getTime();
   const minSquares = difficultySquareCount(difficulty || Difficulty.easy);
 
@@ -20,9 +21,7 @@ export default function generate(difficulty?: Difficulty) {
   for (const s of shuffledSquares) {
     delete generatedGrid[s];
     filledSquares--;
-    if (!isUnique(generatedGrid)) {
-      console.log(generatedGrid);
-    }
+
     if (!isSolvableWithElimination(generatedGrid) || !isUnique(generatedGrid)) {
       generatedGrid[s] = fullGrid[s];
       filledSquares++;

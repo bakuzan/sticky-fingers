@@ -60,10 +60,10 @@ import { optsStore } from '@/utils/storage';
 import { SudokuGrid } from '@/sudoku/interfaces/SudokuGrid';
 import { SudokuError } from '@/sudoku/interfaces/SudokuError';
 import generate from '@/sudoku/generate';
-import solve from '../sudoku/solve';
+import solve from '@/sudoku/solve';
 import getConflicts from '@/sudoku/getConflicts';
 import { SQUARES } from '@/sudoku/consts';
-import { Difficulty } from '../sudoku/enums/Difficulty';
+import { Difficulty } from '@/sudoku/enums/Difficulty';
 
 @Component({
   components: { Sudoku, Button, SelectBox }
@@ -127,8 +127,7 @@ export default class Home extends Vue {
   public onSubmit() {
     const solution = { ...this.solution };
     const currentGrid = { ...this.grid };
-    console.log('solve?', currentGrid);
-    console.log('solution?', solution);
+
     const { errors, mistakes } = getConflicts(solution, currentGrid);
     const mistakeCount = mistakes.length;
 
