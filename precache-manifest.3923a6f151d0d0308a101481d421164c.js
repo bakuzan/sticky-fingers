@@ -20,12 +20,12 @@ self.__precacheManifest = [
     "url": "/sticky-fingers/js/history.77f41909.js"
   },
   {
-    "revision": "1264e55bdcfd724d3ca5b12c0c3436c6",
+    "revision": "4d262593571ad2a12da19de2d1d65c85",
     "url": "/sticky-fingers/index.html"
   },
   {
-    "revision": "21e9cff2068468b6721f",
-    "url": "/sticky-fingers/js/app.f732bd2c.js"
+    "revision": "d4b2b79ab8efe94a7279",
+    "url": "/sticky-fingers/js/app.b3ea5cc4.js"
   },
   {
     "revision": "9a8575b892c49c2019dc82f52295e8bc",
@@ -48,7 +48,7 @@ self.__precacheManifest = [
     "url": "/sticky-fingers/css/history.b0eedebf.css"
   },
   {
-    "revision": "21e9cff2068468b6721f",
-    "url": "/sticky-fingers/css/app.34a5f3f7.css"
+    "revision": "d4b2b79ab8efe94a7279",
+    "url": "/sticky-fingers/css/app.fb12d82c.css"
   }
 ];
