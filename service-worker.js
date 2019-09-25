@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/sticky-fingers/precache-manifest.0ab2c835921d4be51e069f3d1353b5e9.js"
+  "/sticky-fingers/precache-manifest.26fa5d76e4b71ecfdf0f739b9829cf8e.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "sticky-fingers"});
