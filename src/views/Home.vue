@@ -228,10 +228,9 @@ export default class Home extends Vue {
 
   &__message {
     display: flex;
-    justify-content: center;
     align-items: center;
     flex: 1;
-    margin: 0 5px;
+    margin: 0 10px;
   }
 
   &__padded {
