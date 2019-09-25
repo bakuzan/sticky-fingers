@@ -23,24 +23,29 @@
         id="gameForm"
         name="sudoku"
         autocomplete="off"
-        novalidate=""
+        novalidate
         @submit.prevent="onSubmit"
       >
-        <div class="controls">
-          <div class="controls__padded">{{ timeElapsed }}</div>
-          <div class="controls__padded">{{ difficulty }}</div>
+        <div class="orientation">
+          <div class="orientation__inner">
+            <div class="controls">
+              <div class="controls__padded">{{ timeElapsed }}</div>
+              <div class="controls__padded">{{ difficulty }}</div>
+            </div>
+
+            <Sudoku
+              :initial-grid="initialGrid"
+              :items="grid"
+              :highlightNumber="highlightNumber"
+              :errors="errors"
+              @on-change="handleBoardUpdate"
+            />
+          </div>
+          <Counters :items="grid" @highlight="setHighlightNumber" />
         </div>
-        <Sudoku
-          :initial-grid="initialGrid"
-          :items="grid"
-          :errors="errors"
-          @on-change="handleBoardUpdate"
-        />
         <div class="controls">
           <Button type="submit" primary>Check</Button>
-          <div class="controls__message">
-            {{ userFeedback }}
-          </div>
+          <div class="controls__message">{{ userFeedback }}</div>
         </div>
       </form>
     </div>
@@ -52,6 +57,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import Sudoku from '@/components/Sudoku.vue';
 import Button from '@/components/Button.vue';
 import SelectBox from '@/components/SelectBox.vue';
+import Counters from '@/components/Counters.vue';
 
 import { BoardUpdate } from '@/interfaces/BoardUpdate';
 import { SelectBoxChange } from '@/interfaces/SelectBoxChange';
@@ -66,7 +72,7 @@ import { SQUARES } from '@/sudoku/consts';
 import { Difficulty } from '@/sudoku/enums/Difficulty';
 
 @Component({
-  components: { Sudoku, Button, SelectBox }
+  components: { Sudoku, Button, SelectBox, Counters }
 })
 export default class Home extends Vue {
   private initialGrid: SudokuGrid = {};
@@ -79,6 +85,7 @@ export default class Home extends Vue {
   private timeElapsed: string = '00m 00s';
   private userFeedback: string = `Let's play sudoku!`;
   private errors: SudokuError[] = [];
+  private highlightNumber: number = -1;
 
   get difficultyOptions() {
     return Object.values(Difficulty).map((value) => ({
@@ -122,6 +129,10 @@ export default class Home extends Vue {
     this.solution = solve({ ...grid });
     this.inGame = true;
     this.unsubTimer = GameTimer.subscribe((time) => (this.timeElapsed = time));
+  }
+
+  public setHighlightNumber(num: number) {
+    this.highlightNumber = num;
   }
 
   public onSubmit() {
@@ -183,6 +194,8 @@ export default class Home extends Vue {
 </script>
 
 <style lang="scss" scoped>
+@import '../styles/_mixins.scss';
+
 .home {
   display: flex;
   height: calc(100vh - 10px - var(--header-height));
@@ -223,6 +236,27 @@ export default class Home extends Vue {
 
   &__padded {
     padding: 0 5px;
+  }
+}
+
+.orientation {
+  display: flex;
+  align-items: flex-end;
+
+  @include respondToAll((xxs, xs)) {
+    flex-direction: column;
+  }
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+  }
+}
+.counters {
+  margin: 0 10px;
+
+  @include respondToAll((xxs, xs)) {
+    margin: 10px 0;
   }
 }
 </style>

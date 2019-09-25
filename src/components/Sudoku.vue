@@ -32,6 +32,7 @@ export default class Sudoku extends Vue {
   @Prop({ type: Object, default: () => ({}) }) public initialGrid!: SudokuGrid;
   @Prop({ type: Object, default: () => ({}) }) public items!: SudokuGrid;
   @Prop({ type: Array }) public errors!: SudokuError[];
+  @Prop({ type: Number }) public highlightNumber!: number;
 
   get board() {
     return RAW_BOARD.map((sq) => ({
@@ -40,14 +41,14 @@ export default class Sudoku extends Vue {
       value: this.items[sq],
       disabled: !!this.initialGrid[sq],
       warning: this.isWarning(sq),
-      error: this.isError(sq)
+      error: this.isError(sq),
+      highlight: Number(this.items[sq]) === this.highlightNumber
     }));
   }
 
   @Emit()
   public onChange(update: BoardUpdate) {
     // Let the value be kicked up
-    console.log('sudoku?', update);
   }
 
   public onKeyUp(event: KeyboardEvent) {

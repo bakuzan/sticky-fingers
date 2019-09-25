@@ -21,40 +21,24 @@
       />
     </div>
     <List>
-      <li v-if="!history.length" class="history__item history__item--no-items">
-        No history found.
-      </li>
+      <li v-if="!history.length" class="history__item history__item--no-items">No history found.</li>
       <li v-else class="history__item history__item--header">
         <div class="column-header">#</div>
         <div class="column-header">
-          <Button
-            class="column-header__button"
-            @click.native="handleSort('datetime')"
-            >Date<span
-              v-if="sortField === 'datetime'"
-              class="column-header__icon"
-              >{{ sortIcon }}</span
-            ></Button
-          >
+          <Button class="column-header__button" @click.native="handleSort('datetime')">
+            Date
+            <span v-if="sortField === 'datetime'" class="column-header__icon">{{ sortIcon }}</span>
+          </Button>
         </div>
         <div class="column-header">Difficulty</div>
         <div class="column-header">
-          <Button
-            class="column-header__button"
-            @click.native="handleSort('timeElapsed')"
-            >Time<span
-              v-if="sortField === 'timeElapsed'"
-              class="column-header__icon"
-              >{{ sortIcon }}</span
-            ></Button
-          >
+          <Button class="column-header__button" @click.native="handleSort('timeElapsed')">
+            Time
+            <span v-if="sortField === 'timeElapsed'" class="column-header__icon">{{ sortIcon }}</span>
+          </Button>
         </div>
       </li>
-      <li
-        class="history__item"
-        v-for="(item, index) in items"
-        :key="item.datetime"
-      >
+      <li class="history__item" v-for="(item, index) in items" :key="item.datetime">
         <div>{{ itemNumber(index) }}</div>
         <div>{{ item.date }}</div>
         <div>{{ item.difficulty }}</div>
@@ -150,8 +134,6 @@ export default class History extends Vue {
     }
 
     this.sortField = field;
-
-    console.log('sort', this.sortField, this.sortOrder);
   }
 
   public onDifficultyUpdate(values: MultiSelectValue[]) {

@@ -28,6 +28,7 @@ export default class Square extends Vue {
   @Prop({ type: Boolean }) public disabled!: boolean;
   @Prop({ type: Boolean }) public warning!: boolean;
   @Prop({ type: Boolean }) public error!: boolean;
+  @Prop({ type: Boolean }) public highlight!: boolean;
 
   get classes() {
     return cx('square', ...getBorderClasses(this.name));
@@ -36,9 +37,11 @@ export default class Square extends Vue {
   get inputClasses() {
     const hasWarning = this.warning && !this.error;
     const hasError = this.error;
+    const hasHighlight = this.highlight;
 
     return cx(
       'square__input',
+      hasHighlight && `square__input--highlight`,
       hasWarning && `square__input--warning`,
       hasError && `square__input--error`
     );
@@ -55,7 +58,7 @@ export default class Square extends Vue {
     const num = Number(rawValue);
     const isInvalid = isNaN(num) || num < 1 || num > 9;
     const value = isInvalid ? '' : rawValue;
-    console.log(this);
+
     return { square: this.name, value };
   }
 
@@ -116,6 +119,14 @@ $directions: (top, right, bottom, left);
     &[read-only] {
       background-color: var(--disabled-colour);
       color: var(--disabled-contrast);
+    }
+
+    // Yes, dirty - but not !important
+    &--highlight,
+    &:read-only#{&}--highlight,
+    &[read-only]#{&}--highlight {
+      background-color: var(--primary-colour);
+      color: var(--primary-contrast);
     }
   }
 }
