@@ -55,6 +55,7 @@ export default class Sudoku extends Vue {
     const { name } = event.target as HTMLInputElement;
     const value = event.code || event.key;
     const adjustment = this.getAdjustment(value, name);
+
     if (!adjustment.direction) {
       return;
     }
@@ -64,7 +65,9 @@ export default class Sudoku extends Vue {
   }
 
   private getAdjustment(key: string, value: string): FocusAdjustment {
-    const [letter, num] = value.split('');
+    const [_, cell] = value.split('_');
+    const [letter, num] = cell.split('');
+
     switch (key) {
       case 'ArrowUp':
         return {
