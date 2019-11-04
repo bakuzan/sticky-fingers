@@ -95,13 +95,6 @@ export default class Home extends Vue {
   }
 
   public mounted() {
-    /**
-     * TODO
-     * 2) Track number of checks
-     * 3) Limit number of checks (option ?)
-     * 4) Time limit (option ?)
-     *
-     */
     const opts = optsStore.get();
     this.difficulty = opts.difficulty;
   }

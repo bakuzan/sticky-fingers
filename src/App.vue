@@ -29,6 +29,7 @@ export default class App extends Vue {}
   --success-colour: #228b22;
   --warning-colour: #eee8aa;
   --danger-colour: #db7093;
+  --danger-colour-hover: #d14775;
   --disabled-colour: #bbbbbb;
   --disabled-contrast: #1f1f1f;
 
@@ -39,7 +40,7 @@ export default class App extends Vue {}
   --secondary-contrast: #000;
 
   --button-background: var(--primary-colour);
-  --button-background-hover: hsl(222, 65%, 40%);
+  --button-background-hover: #234ba8;
   --button-colour: #fff;
 
   --shadow-colour: var(--secondary-colour);

@@ -35,7 +35,11 @@ export default class Counters extends Vue {
         return {
           number: num,
           count,
-          classes: cx('counter', count === 9 && 'counter--complete')
+          classes: cx(
+            'counter',
+            count === 9 && 'counter--complete',
+            count > 9 && 'counter--overloaded'
+          )
         };
       });
   }
@@ -80,6 +84,15 @@ export default class Counters extends Vue {
   &:hover {
     background-color: var(--primary-colour);
     color: var(--primary-contrast);
+  }
+
+  &--overloaded {
+    background-color: var(--danger-colour);
+
+    &:hover {
+      background-color: var(--danger-colour-hover);
+      color: var(--primary-contrast);
+    }
   }
 
   &__number {
