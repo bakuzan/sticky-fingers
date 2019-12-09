@@ -4,7 +4,7 @@ import Home from './views/Home.vue';
 
 Vue.use(Router);
 
-export default new Router({
+const routerInstance = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
@@ -21,3 +21,19 @@ export default new Router({
     }
   ]
 });
+
+const PAGE_TITLES = new Map([
+  ['default', 'Sticky Fingers'],
+  ['home', ''],
+  ['history', 'Game history']
+]);
+
+routerInstance.afterEach((toRoute) => {
+  const pageTitle = PAGE_TITLES.get(toRoute.name || '');
+
+  window.document.title = pageTitle
+    ? `${pageTitle} | Sticky Fingers`
+    : (PAGE_TITLES.get('default') as string);
+});
+
+export default routerInstance;
