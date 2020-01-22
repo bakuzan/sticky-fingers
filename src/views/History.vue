@@ -20,6 +20,7 @@
         @update="onDifficultyUpdate"
       />
     </div>
+    <p class="history__count">Showing {{items.length}} of {{history.length}}</p>
     <List>
       <li v-if="!history.length" class="history__item history__item--no-items">No history found.</li>
       <li v-else class="history__item history__item--header">
@@ -76,15 +77,11 @@ const DIFFICULTY_OPTIONS: MultiSelectOption[] = Object.values(Difficulty).map(
   })
 );
 
-const defaultDifficulties = DIFFICULTY_OPTIONS.map(
-  (x) => x.value
-) as Difficulty[];
-
 @Component({ components: { List, Button, MultiSelect } })
 export default class History extends Vue {
   private sortOrder: number = 1;
   private sortField: ResultField = 'timeElapsed';
-  private difficulties: Difficulty[] = defaultDifficulties;
+  private difficulties: Difficulty[] = [];
   private history: GameResultView[] = [];
   private averages: any[] = [];
 
@@ -109,6 +106,7 @@ export default class History extends Vue {
 
   public mounted() {
     const opts = optsStore.get();
+    this.difficulties = [opts.difficulty];
     this.history = opts.history.map((x) => ({
       ...x,
       date: formatDate(x.datetime),
@@ -169,6 +167,11 @@ export default class History extends Vue {
     @include respondToAll((xxs, xs)) {
       max-width: 100%;
     }
+  }
+
+  &__count {
+    font-size: 0.8rem;
+    margin: 5px 0;
   }
 
   &__item {

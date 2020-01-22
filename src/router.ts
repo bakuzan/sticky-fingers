@@ -24,7 +24,7 @@ const routerInstance = new Router({
 
 const PAGE_TITLES = new Map([
   ['default', 'Sticky Fingers'],
-  ['home', ''],
+  ['home', 'Sudoku'],
   ['history', 'Game history']
 ]);
 
