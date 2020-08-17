@@ -206,6 +206,8 @@ export default class Home extends Vue {
   align-items: center;
 
   &__message {
+    font-size: 1.5rem;
+    font-weight: bold;
     margin: 15px 0;
   }
 
@@ -217,6 +219,7 @@ export default class Home extends Vue {
 .controls {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 5px 0;
 
   &__message {
