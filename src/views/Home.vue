@@ -41,7 +41,11 @@
               @on-change="handleBoardUpdate"
             />
           </div>
-          <Counters :items="grid" @highlight="setHighlightNumber" />
+          <Counters
+            :items="grid"
+            @highlight="setHighlightNumber"
+            @selected="onCounterSelect"
+          />
         </div>
         <div class="controls">
           <Button type="submit" primary>Check</Button>
@@ -62,6 +66,7 @@ import Counters from '@/components/Counters.vue';
 import { BoardUpdate } from '@/interfaces/BoardUpdate';
 import { SelectBoxChange } from '@/interfaces/SelectBoxChange';
 import GameTimer from '@/utils/GameTimer';
+import FocusService from '@/utils/FocusService';
 import { optsStore } from '@/utils/storage';
 import { SudokuGrid } from '@/sudoku/interfaces/SudokuGrid';
 import { SudokuError } from '@/sudoku/interfaces/SudokuError';
@@ -126,6 +131,20 @@ export default class Home extends Vue {
 
   public setHighlightNumber(num: number) {
     this.highlightNumber = num;
+  }
+
+  public onCounterSelect(num: number) {
+    const prevSquare = FocusService.getPreviousFocus();
+    if (prevSquare === undefined) {
+      return;
+    }
+
+    this.handleBoardUpdate({
+      square: prevSquare,
+      value: `${num}`
+    });
+
+    this.$nextTick(() => document.getElementById(prevSquare)?.focus());
   }
 
   public onSubmit() {

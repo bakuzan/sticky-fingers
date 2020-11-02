@@ -11,6 +11,8 @@
       :readonly="disabled"
       @input="onUserInput"
       @keyup="onKeyUp"
+      @focus="onFocus"
+      @blur="onBlur"
     />
   </div>
 </template>
@@ -20,6 +22,7 @@ import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
 
 import cx from '@/utils/classes';
 import getBorderClasses from '@/utils/getBorderClasses';
+import focusService from '@/utils/FocusService';
 
 @Component
 export default class Square extends Vue {
@@ -49,6 +52,14 @@ export default class Square extends Vue {
 
   get fieldName() {
     return `sq_${this.name}`;
+  }
+
+  public onFocus() {
+    focusService.setFocus(this.name);
+  }
+
+  public onBlur() {
+    focusService.setFocus(undefined);
   }
 
   @Emit()

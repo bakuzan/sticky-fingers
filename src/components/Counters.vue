@@ -1,16 +1,18 @@
 <template>
   <div class="counters">
-    <div
+    <button
       v-for="item in counters"
       :key="item.number"
       :class="item.classes"
       :aria-label="`${item.number} has ${item.count} placements`"
+      type="button"
       @mouseenter="() => highlight(item.number)"
       @mouseleave="() => highlight(-1)"
+      @click="() => selected(item.number)"
     >
-      <div class="counter__number" aria-hidden="true">{{item.number}}</div>
-      <div class="counter__count" aria-hidden="true">{{item.count}}</div>
-    </div>
+      <div class="counter__number" aria-hidden="true">{{ item.number }}</div>
+      <div class="counter__count" aria-hidden="true">{{ item.count }}</div>
+    </button>
   </div>
 </template>
 
@@ -48,6 +50,11 @@ export default class Counters extends Vue {
   public highlight(num: number) {
     // Kick up
   }
+
+  @Emit()
+  public selected(num: number) {
+    // Kick up
+  }
 }
 </script>
 
@@ -73,6 +80,7 @@ export default class Counters extends Vue {
   align-items: center;
   height: var(--square-size);
   width: var(--square-size);
+  background: inherit;
   border: 1px solid var(--secondary-colour);
   box-sizing: border-box;
   cursor: pointer;
