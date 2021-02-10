@@ -4,8 +4,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/sticky-fingers/404.html"
   },
   {
-    "revision": "f447ae3286d92596f0a8",
-    "url": "/sticky-fingers/css/app.9317c7a9.css"
+    "revision": "f145831a53ebfd13a310",
+    "url": "/sticky-fingers/css/app.2c4341b2.css"
   },
   {
     "revision": "ad32c08214ba4f1b33e1",
@@ -32,12 +32,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/sticky-fingers/img/icon-512x512.png"
   },
   {
-    "revision": "c1b8a297d0cea78f99cc0289a7fd8648",
+    "revision": "3997dfb929eb651a8e914a29ba131871",
     "url": "/sticky-fingers/index.html"
   },
   {
-    "revision": "f447ae3286d92596f0a8",
-    "url": "/sticky-fingers/js/app.13a73cca.js"
+    "revision": "f145831a53ebfd13a310",
+    "url": "/sticky-fingers/js/app.96147c63.js"
   },
   {
     "revision": "960f538c47d0396171ce",
