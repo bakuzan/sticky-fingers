@@ -5,7 +5,7 @@
         <div class="game-summary__message">{{ userFeedback }}</div>
         <div class="controls">
           <Button primary @click.native="onNewGame">New game</Button>
-          <div style="margin: 0 15px;">
+          <div style="margin: 0 15px">
             <SelectBox
               id="difficulty"
               class="game-summary__difficulty"
@@ -139,10 +139,14 @@ export default class Home extends Vue {
       return;
     }
 
-    this.handleBoardUpdate({
-      square: prevSquare,
-      value: `${num}`
-    });
+    const initSquareValue = this.initialGrid[prevSquare];
+    if (!initSquareValue) {
+      // Only update the square if it isn't a pre-populated square.
+      this.handleBoardUpdate({
+        square: prevSquare,
+        value: `${num}`
+      });
+    }
 
     this.$nextTick(() => document.getElementById(prevSquare)?.focus());
   }
