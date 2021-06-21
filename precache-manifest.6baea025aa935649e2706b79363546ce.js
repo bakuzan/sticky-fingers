@@ -4,11 +4,11 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/sticky-fingers/404.html"
   },
   {
-    "revision": "f145831a53ebfd13a310",
-    "url": "/sticky-fingers/css/app.2c4341b2.css"
+    "revision": "911be68fbbac0ece2382",
+    "url": "/sticky-fingers/css/app.015e1ae8.css"
   },
   {
-    "revision": "ad32c08214ba4f1b33e1",
+    "revision": "cd88edba24974f07c3d2",
     "url": "/sticky-fingers/css/history.5371b896.css"
   },
   {
@@ -32,20 +32,20 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/sticky-fingers/img/icon-512x512.png"
   },
   {
-    "revision": "3997dfb929eb651a8e914a29ba131871",
+    "revision": "07714cbdc50969b0de3682b25a507988",
     "url": "/sticky-fingers/index.html"
   },
   {
-    "revision": "f145831a53ebfd13a310",
-    "url": "/sticky-fingers/js/app.96147c63.js"
+    "revision": "911be68fbbac0ece2382",
+    "url": "/sticky-fingers/js/app.acd3002f.js"
   },
   {
     "revision": "960f538c47d0396171ce",
     "url": "/sticky-fingers/js/chunk-vendors.86a4b3b6.js"
   },
   {
-    "revision": "ad32c08214ba4f1b33e1",
-    "url": "/sticky-fingers/js/history.08fb8408.js"
+    "revision": "cd88edba24974f07c3d2",
+    "url": "/sticky-fingers/js/history.c75371b7.js"
   },
   {
     "revision": "e6d44ad62bc4f307d736006ec81f7729",
