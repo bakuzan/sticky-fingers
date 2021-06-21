@@ -17,7 +17,7 @@ import Square from '@/components/Square.vue';
 import { BoardUpdate } from '@/interfaces/BoardUpdate';
 import { FocusAdjustment } from '@/interfaces/FocusAdjustment';
 import { SudokuError } from '@/sudoku/interfaces/SudokuError';
-import { UNITS, ROWS, COLS } from '@/sudoku/consts';
+import { ROWS, COLS } from '@/sudoku/consts';
 import getBoardSquares from '@/utils/getBoardSquares';
 import { SudokuGrid } from '../sudoku/interfaces/SudokuGrid';
 
@@ -136,7 +136,7 @@ export default class Sudoku extends Vue {
 <style scoped lang="scss">
 .sudoku {
   display: grid;
-  grid-auto-rows: var(--square-size);
-  grid-template-columns: repeat(9, var(--square-size));
+  grid-auto-rows: var(--square-size, 50px);
+  grid-template-columns: repeat(9, var(--square-size, 50px));
 }
 </style>

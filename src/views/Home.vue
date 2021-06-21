@@ -263,6 +263,7 @@ export default class Home extends Vue {
 
   @include respondToAll((xxs, xs)) {
     flex-direction: column;
+    align-items: unset;
   }
 
   &__inner {

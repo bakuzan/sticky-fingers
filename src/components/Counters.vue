@@ -104,7 +104,27 @@ export default class Counters extends Vue {
   }
 
   &__number {
-    font-size: 1.25rem;
+    font-size: 1.25rem; // Default
+
+    @include respondTo(lg) {
+      font-size: 1.75rem;
+    }
+
+    @include respondTo(md) {
+      font-size: 1.5rem;
+    }
+
+    @include respondTo(sm) {
+      font-size: 1.3rem;
+    }
+
+    @include respondTo(xs) {
+      font-size: 1.25rem;
+    }
+
+    @include respondTo(xxs) {
+      font-size: 1.2rem;
+    }
   }
 
   &__count {

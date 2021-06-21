@@ -20,6 +20,7 @@ export default class App extends Vue {}
 </script>
 
 <style lang="scss">
+@import './styles/_mixins.scss';
 @import './styles/floatLabel.scss';
 
 :root {
@@ -47,7 +48,27 @@ export default class App extends Vue {}
   --multiselect-menu-background-colour: #fff;
 
   --header-height: 50px;
-  --square-size: 50px;
+  --square-size: 50px; // Default guess
+
+  @include respondTo(lg) {
+    --square-size: 65px;
+  }
+
+  @include respondTo(md) {
+    --square-size: 60px;
+  }
+
+  @include respondTo(sm) {
+    --square-size: 50px;
+  }
+
+  @include respondTo(xs) {
+    --square-size: 40px;
+  }
+
+  @include respondTo(xxs) {
+    --square-size: 35px;
+  }
 }
 
 body {

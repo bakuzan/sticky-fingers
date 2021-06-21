@@ -7,9 +7,10 @@
       :id="name"
       :name="fieldName"
       :aria-label="name"
-      :value="value"
       :readonly="disabled"
+      :value="value"
       @input="onUserInput"
+      @keydown="onKeyDown"
       @keyup="onKeyUp"
       @focus="onFocus"
       @blur="onBlur"
@@ -23,6 +24,7 @@ import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
 import cx from '@/utils/classes';
 import getBorderClasses from '@/utils/getBorderClasses';
 import focusService from '@/utils/FocusService';
+import { KeyCodes } from '@/enums/KeyCodes';
 
 @Component
 export default class Square extends Vue {
@@ -77,11 +79,22 @@ export default class Square extends Vue {
   public onKeyUp(event: KeyboardEvent) {
     // kick it up
   }
+
+  private onKeyDown(e: KeyboardEvent) {
+    const keys = [KeyCodes.enter, KeyCodes.backspace] as string[];
+
+    if (/[a-zA-Z0]/.test(e.key) && !keys.includes(e.code)) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+    }
+  }
 }
 </script>
 
 
 <style scoped lang="scss">
+@import '../styles/_mixins.scss';
+
 $directions: (top, right, bottom, left);
 
 .square {
@@ -104,13 +117,33 @@ $directions: (top, right, bottom, left);
   }
 
   &__input {
-    --font-size: 20px;
-
     height: 100%;
     width: 100%;
     border: none;
     box-sizing: border-box;
     text-align: center;
+
+    --font-size: 20px; // Default
+
+    @include respondTo(lg) {
+      --font-size: 28px;
+    }
+
+    @include respondTo(md) {
+      --font-size: 24px;
+    }
+
+    @include respondTo(sm) {
+      --font-size: 20px;
+    }
+
+    @include respondTo(xs) {
+      --font-size: 20px;
+    }
+
+    @include respondTo(xxs) {
+      --font-size: 20px;
+    }
 
     &::-webkit-inner-spin-button,
     &::-webkit-outer-spin-button {
