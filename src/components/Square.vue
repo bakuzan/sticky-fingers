@@ -83,7 +83,7 @@ export default class Square extends Vue {
   private onKeyDown(e: KeyboardEvent) {
     const keys = [KeyCodes.enter, KeyCodes.backspace] as string[];
 
-    if (/[a-zA-Z0]/.test(e.key) && !keys.includes(e.code)) {
+    if (/[a-zA-Z0]/.test(e.key) && !keys.includes(e.key)) {
       e.preventDefault();
       e.stopImmediatePropagation();
     }
