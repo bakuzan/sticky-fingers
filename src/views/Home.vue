@@ -49,7 +49,15 @@
         </div>
         <div class="controls">
           <Button type="submit" primary>Check</Button>
-          <div class="controls__message">{{ userFeedback }}</div>
+          <div
+            :class="{
+              controls__message: true,
+              'controls__message--error': errors.length > 0,
+              'controls__message--warning': mistakes.length > 0
+            }"
+          >
+            {{ userFeedback }}
+          </div>
         </div>
       </form>
     </div>
@@ -90,6 +98,7 @@ export default class Home extends Vue {
   private timeElapsed: string = '00m 00s';
   private userFeedback: string = `Let's play sudoku!`;
   private errors: SudokuError[] = [];
+  private mistakes: string[] = [];
   private highlightNumber: number = -1;
 
   get difficultyOptions() {
@@ -170,10 +179,12 @@ export default class Home extends Vue {
     // Mistakes that don't break sudoku rules, but are incorrect to the solution
     if (mistakeCount) {
       const plu = mistakeCount !== 1 ? 's' : '';
+      this.mistakes = [...mistakes];
       this.userFeedback = `There appear to be ${mistakeCount} mistake${plu}.`;
       return;
     }
 
+    this.mistakes = [];
     const isSolved = Object.keys(solution).every(
       (k) => solution[k] === currentGrid[k]
     );
@@ -250,6 +261,15 @@ export default class Home extends Vue {
     align-items: center;
     flex: 1;
     margin: 0 10px;
+    font-weight: bold;
+
+    &--error {
+      color: var(--danger-colour);
+    }
+
+    &--warning {
+      color: var(--warning-colour);
+    }
   }
 
   &__padded {
