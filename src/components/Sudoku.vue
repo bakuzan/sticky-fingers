@@ -132,7 +132,6 @@ export default class Sudoku extends Vue {
 }
 </script>
 
-
 <style scoped lang="scss">
 .sudoku {
   display: grid;

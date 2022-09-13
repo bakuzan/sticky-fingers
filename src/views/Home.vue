@@ -94,7 +94,6 @@ export default class Home extends Vue {
   private difficulty: Difficulty = Difficulty.easy;
 
   private inGame: boolean = false;
-  private timer: number = 0;
   private timeElapsed: string = '00m 00s';
   private userFeedback: string = `Let's play sudoku!`;
   private errors: SudokuError[] = [];

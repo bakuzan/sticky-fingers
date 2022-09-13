@@ -16,7 +16,7 @@ $screen-md-max: ($screen-lg - 1);
       @content;
     }
   } @else if $media == xs {
-    @media (min-width: $screen-xxs-max) and(max-width: $screen-xs-max) {
+    @media (min-width: $screen-xxs-max) and (max-width: $screen-xs-max) {
       @content;
     }
   } @else if $media == sm {

@@ -2,15 +2,15 @@
   <div :class="classes">
     <input
       :class="inputClasses"
-      type="text"
+      :type="fieldType"
       maxlength="1"
+      :tabIndex="name === 'A1' ? 0 : -1"
       :id="name"
       :name="fieldName"
       :aria-label="name"
       :readonly="disabled"
       :value="value"
       @input="onUserInput"
-      @keydown="onKeyDown"
       @keyup="onKeyUp"
       @focus="onFocus"
       @blur="onBlur"
@@ -24,7 +24,7 @@ import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
 import cx from '@/utils/classes';
 import getBorderClasses from '@/utils/getBorderClasses';
 import focusService from '@/utils/FocusService';
-import { KeyCodes } from '@/enums/KeyCodes';
+import isMobile from '@/utils/isMobile';
 
 @Component
 export default class Square extends Vue {
@@ -56,6 +56,10 @@ export default class Square extends Vue {
     return `sq_${this.name}`;
   }
 
+  get fieldType() {
+    return isMobile() ? 'number' : 'text';
+  }
+
   public onFocus() {
     focusService.setFocus(this.name);
   }
@@ -72,6 +76,7 @@ export default class Square extends Vue {
     const isInvalid = isNaN(num) || num < 1 || num > 9;
     const value = isInvalid ? '' : rawValue;
 
+    this.$forceUpdate(); // required to force the re-render so the ui looks like the backing data
     return { square: this.name, value };
   }
 
@@ -79,18 +84,8 @@ export default class Square extends Vue {
   public onKeyUp(event: KeyboardEvent) {
     // kick it up
   }
-
-  private onKeyDown(e: KeyboardEvent) {
-    const keys = [KeyCodes.enter, KeyCodes.backspace] as string[];
-
-    if (/[a-zA-Z0]/.test(e.key) && !keys.includes(e.key)) {
-      e.preventDefault();
-      e.stopImmediatePropagation();
-    }
-  }
 }
 </script>
-
 
 <style scoped lang="scss">
 @import '../styles/_mixins.scss';
