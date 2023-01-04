@@ -20,32 +20,57 @@
         @update="onDifficultyUpdate"
       />
     </div>
-    <p class="history__count">Showing {{items.length}} of {{history.length}}</p>
-    <List>
-      <li v-if="!history.length" class="history__item history__item--no-items">No history found.</li>
-      <li v-else class="history__item history__item--header">
-        <div class="column-header">#</div>
-        <div class="column-header">
-          <Button class="column-header__button" @click.native="handleSort('datetime')">
-            Date
-            <span v-if="sortField === 'datetime'" class="column-header__icon">{{ sortIcon }}</span>
-          </Button>
-        </div>
-        <div class="column-header">Difficulty</div>
-        <div class="column-header">
-          <Button class="column-header__button" @click.native="handleSort('timeElapsed')">
-            Time
-            <span v-if="sortField === 'timeElapsed'" class="column-header__icon">{{ sortIcon }}</span>
-          </Button>
-        </div>
-      </li>
-      <li class="history__item" v-for="(item, index) in items" :key="item.datetime">
-        <div>{{ itemNumber(index) }}</div>
-        <div>{{ item.date }}</div>
-        <div>{{ item.difficulty }}</div>
-        <div>{{ item.timeElapsedDisplay }}</div>
-      </li>
-    </List>
+    <p class="history__count">
+      Showing {{ items.length }} of {{ history.length }}
+    </p>
+    <table class="list">
+      <thead>
+        <tr class="history__item history__item--header">
+          <th class="column-header">#</th>
+          <th class="column-header">
+            <Button
+              class="column-header__button"
+              @click.native="handleSort('datetime')"
+            >
+              Date
+              <span
+                v-if="sortField === 'datetime'"
+                class="column-header__icon"
+                >{{ sortIcon }}</span
+              >
+            </Button>
+          </th>
+          <th class="column-header">Difficulty</th>
+          <th class="column-header">
+            <Button
+              class="column-header__button"
+              @click.native="handleSort('timeElapsed')"
+            >
+              Time
+              <span
+                v-if="sortField === 'timeElapsed'"
+                class="column-header__icon"
+                >{{ sortIcon }}</span
+              >
+            </Button>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          class="history__item"
+          v-for="(item, index) in items"
+          :key="item.datetime"
+        >
+          <td column-title="Rank">{{ itemNumber(index) }}</td>
+          <td column-title="Date">{{ item.date }}</td>
+          <td column-title="Difficulty">{{ item.difficulty }}</td>
+          <td column-title="Time">
+            {{ item.timeElapsedDisplay }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </section>
 </template>
 
@@ -163,10 +188,6 @@ export default class History extends Vue {
   &__filters {
     max-width: 50%;
     margin: 10px 0;
-
-    @include respondToAll((xxs, xs)) {
-      max-width: 100%;
-    }
   }
 
   &__count {
@@ -175,22 +196,7 @@ export default class History extends Vue {
   }
 
   &__item {
-    display: grid;
-    grid-template-columns: 50px 0.33fr 110px 0.25fr;
-    width: 100%;
     padding: 5px 0;
-
-    @include respondToAll((xxs, xs)) {
-      grid-template-columns: 50px 200px 110px auto;
-    }
-
-    &--no-items {
-      display: flex;
-    }
-
-    &:not(.history__item--header):not(.history__item--no-items):hover {
-      background-color: var(--secondary-colour);
-    }
   }
 }
 
@@ -212,18 +218,85 @@ export default class History extends Vue {
 }
 
 .column-header {
-  display: flex;
-  align-items: center;
-
   &__button {
+    display: flex;
+    justify-content: space-between;
     width: 100%;
+    height: 100%;
+    background: none;
+    padding: 0 5px;
+    border: none;
     text-align: left;
+    cursor: pointer;
     box-shadow: none;
   }
 
   &__icon {
     display: inline-block;
     margin: 0 5px;
+  }
+}
+
+/* Repsonsive */
+td,
+th {
+  vertical-align: top;
+}
+
+td {
+  padding: 5px;
+}
+
+@media only screen and (max-width: 600px) {
+  /* Force table to not be like tables anymore */
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+  }
+
+  /* Hide table headers (but not display: none;, for accessibility) */
+  thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  tr {
+    border: 1px solid var(--table-border-colour);
+  }
+
+  td {
+    /* Behave  like a "row" */
+    border: none;
+    border-bottom: 1px solid var(--table-cell-border-colour);
+    position: relative;
+    padding-left: 40%;
+  }
+
+  td:before {
+    /* Now like a table header */
+    position: absolute;
+    /* Top/left values mimic padding */
+    // top: 6px;
+    left: 6px;
+    width: 35%;
+    padding-right: 10px;
+    white-space: nowrap;
+    text-align: right;
+  }
+
+  /* Label the data */
+  td:before {
+    content: attr(column-title);
+  }
+
+  td[column-title='Rank'] {
+    background-color: var(--secondary-colour);
+    color: var(--secondary-contrast);
   }
 }
 </style>
