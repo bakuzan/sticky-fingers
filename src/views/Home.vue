@@ -242,6 +242,11 @@ export default class Home extends Vue {
     font-size: 1.5rem;
     font-weight: bold;
     margin: 15px 0;
+
+    @include respondToAll((xxs, xs)) {
+      max-width: 425px;
+      text-align: center;
+    }
   }
 
   &__difficulty {
@@ -254,6 +259,7 @@ export default class Home extends Vue {
   justify-content: space-between;
   align-items: center;
   padding: 5px 0;
+  max-width: calc(9 * var(--square-size));
 
   &__message {
     display: flex;
